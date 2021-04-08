@@ -239,6 +239,32 @@ func cmdListDates(cmd *cli.Cmd) {
 	}
 }
 
+func cmdListUnchecked(cmd *cli.Cmd) {
+	cmd.Action = func() {
+		a, err := app.New()
+		if err != nil {
+			die(err)
+		}
+		defer a.Close()
+
+		nodes, err := a.GetUncheckedNodes()
+		if err != nil {
+			die(err)
+		}
+		for _, d := range nodes {
+			// Get the nodes as members of their graphs to get accurate status.
+			n, err := a.GetGraph(d.ID)
+			if err != nil {
+				die(err)
+			}
+			if n == nil {
+				continue
+			}
+			fmt.Println(n)
+		}
+	}
+}
+
 func cmdRename(cmd *cli.Cmd) {
 	cmd.Spec = "NODE NAME_PARTS..."
 	var (

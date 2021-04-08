@@ -88,6 +88,19 @@ func (d *Database) GetRoots() ([]*multitree.Node, error) {
 	return rowsToNodes(rows), nil
 }
 
+// GetUnchecked returns a slice of nodes that are unchecked
+func (d *Database) GetUnchecked() ([]*multitree.Node, error) {
+	rows, err := d.DB.Query(
+		"SELECT * FROM nodes " +
+			"WHERE node_completed IS NULL " +
+			"AND NOT EXISTS(SELECT * FROM links WHERE origin_id = node_id)",
+	)
+	if err != nil {
+		return nil, err
+	}
+	return rowsToNodes(rows), nil
+}
+
 func backpropCompletion(tx *sql.Tx, node *multitree.Node) error {
 	var updateQueue []*multitree.Node
 	var backprop func(*multitree.Node)

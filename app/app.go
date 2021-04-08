@@ -360,6 +360,18 @@ func (a *App) GetDateNodes() ([]*multitree.Node, error) {
 	return ret, nil
 }
 
+func (a *App) GetUncheckedNodes() ([]*multitree.Node, error) {
+	roots, err := a.Database.GetUnchecked()
+	if err != nil {
+		return nil, err
+	}
+	if len(roots) == 0 {
+		return nil, nil
+	}
+	// TODO: sort by name alphabetically(?)
+	return roots, nil
+}
+
 func (a *App) stringSelectorToID(selector string) (int64, error) {
 	// Check if integer.
 	id, err := strconv.ParseInt(selector, 10, 64)

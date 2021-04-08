@@ -22,6 +22,7 @@ func main() {
 	c.Command("unlink", "Remove an existing link between two nodes", cmdUnlink)
 	c.Command("list ls", "List children of selected node", cmdList)
 	c.Command("list-dates lsd", "List all date nodes", cmdListDates)
+	c.Command("list-unchecked lsu", "List all unchecked nodes", cmdListUnchecked)
 	c.Command("rename", "Rename a node", cmdRename)
 	c.Command("remove rm", "Remove node(s)", cmdRemove)
 	c.Command("import", "Import trees from indented lines", cmdImport)
